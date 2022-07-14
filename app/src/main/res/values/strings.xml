@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">RoomAndroid</string>
+    <string name="name_hint">Please input name</string>
+    <string name="occupation_hint">Occupation</string>
+    <string name="save_btn_text">Save</string>
+    <string name="empty_prompt">Empty name or occupation</string>
 </resources>
