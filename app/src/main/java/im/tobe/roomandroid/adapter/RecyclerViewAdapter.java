@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
@@ -17,10 +16,10 @@ import im.tobe.roomandroid.R;
 import im.tobe.roomandroid.model.Contact;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>{
-    private LiveData<List<Contact>> contactList;
+    private List<Contact> contactList;
     private Context context;
 
-    public RecyclerViewAdapter(LiveData<List<Contact>> contactList, Context context) {
+    public RecyclerViewAdapter(List<Contact> contactList, Context context) {
         this.contactList = contactList;
         this.context = context;
     }
@@ -35,7 +34,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Contact contact = Objects.requireNonNull(contactList.getValue()).get(position);
+        Contact contact = contactList.get(position);
 
         holder.getRowName().setText(contact.getName());
         holder.getRowOccupation().setText(contact.getOccupation());
@@ -43,7 +42,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public int getItemCount() {
-        return Objects.requireNonNull(contactList.getValue()).size();
+        return contactList.size();
     }
 
     // for each row
