@@ -2,17 +2,20 @@ package im.tobe.roomandroid;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import im.tobe.roomandroid.model.Contact;
@@ -23,6 +26,9 @@ public class MainActivity extends AppCompatActivity {
     private static final int NEW_CONTACT_ACTIVITY_REQUEST_CODE = 1;
     private ContactViewModel contactViewModel;
     private TextView text;
+    private ListView listView;
+    private ArrayList<String> contactList;
+    private ArrayAdapter arrayAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,20 +36,38 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         text = findViewById(R.id.text);
 
+        listView = findViewById(R.id.listView);
+        contactList = new ArrayList<>();
+
         contactViewModel = new ViewModelProvider.AndroidViewModelFactory(MainActivity.this.getApplication())
                 .create(ContactViewModel.class);
 
         // Observe LiveData
-        contactViewModel.getContacts().observe(this, contacts -> {
+        contactViewModel.getContacts().observe(this, (List<Contact> contacts) -> {
             StringBuilder builder = new StringBuilder();
             for (Contact contact : contacts) {
-                Log.d(TAG, "onCreate: "+contact.getName());
+                Log.d(TAG, "onCreate: " + contact.getName());
                 builder.append(" - ").append(contact.getName()).append(" ").append(contact.getOccupation());
+                contactList.add(contact.getName());
             }
 
             text.setText(builder.toString());
         });
 
+        // create arrayAdapter
+        arrayAdapter = new ArrayAdapter<>(
+                this,
+                android.R.layout.simple_list_item_1,
+                contactList
+        );
+
+        // add data to listView
+        listView.setAdapter(arrayAdapter);
+
+        // attach event listener to listView
+        listView.setOnItemClickListener(this::onListViewItemClicked);
+
+        // display floating icon
         FloatingActionButton addBtn = findViewById(R.id.addBtn);
         addBtn.setOnClickListener(view -> {
             Intent intent = new Intent(MainActivity.this, NewContact.class);
@@ -70,5 +94,9 @@ public class MainActivity extends AppCompatActivity {
 
             }
         }
+    }
+
+    private void onListViewItemClicked(AdapterView<?> adapterView, View view, int i, long l) {
+        Log.d(TAG, "onItemClicked: " + contactList.get(i));
     }
 }
