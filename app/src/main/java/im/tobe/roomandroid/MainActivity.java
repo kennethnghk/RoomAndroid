@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -23,6 +24,7 @@ import im.tobe.roomandroid.model.ContactViewModel;
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private static final int NEW_CONTACT_ACTIVITY_REQUEST_CODE = 1;
+    private static final int RECYCLED_VIEW_PAGE_REQUEST_CODE = 2;
     private ContactViewModel contactViewModel;
     private ListView listView;
     private ArrayList<String> contactList;
@@ -66,6 +68,17 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, NewContact.class);
             startActivityForResult(intent, NEW_CONTACT_ACTIVITY_REQUEST_CODE);
         });
+
+        Button toRecyclerViewBtn = findViewById(R.id.toRecyclerViewBtn);
+        toRecyclerViewBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, RecyclerViewPage.class);
+                startActivityForResult(intent, RECYCLED_VIEW_PAGE_REQUEST_CODE);
+
+            }
+        });
+
     }
 
     @Override

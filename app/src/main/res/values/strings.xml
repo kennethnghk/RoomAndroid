@@ -5,4 +5,5 @@
     <string name="save_btn_text">Save</string>
     <string name="empty_prompt">Empty name or occupation</string>
     <string name="button_content_description">Plus icon</string>
+    <string name="to_recycled_view_btn_text">To RecyclerView</string>
 </resources>
