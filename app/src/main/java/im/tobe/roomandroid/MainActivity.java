@@ -11,7 +11,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -25,7 +24,6 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private static final int NEW_CONTACT_ACTIVITY_REQUEST_CODE = 1;
     private ContactViewModel contactViewModel;
-    private TextView text;
     private ListView listView;
     private ArrayList<String> contactList;
     private ArrayAdapter arrayAdapter;
@@ -34,7 +32,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        text = findViewById(R.id.text);
 
         listView = findViewById(R.id.listView);
         contactList = new ArrayList<>();
@@ -44,14 +41,10 @@ public class MainActivity extends AppCompatActivity {
 
         // Observe LiveData
         contactViewModel.getContacts().observe(this, (List<Contact> contacts) -> {
-            StringBuilder builder = new StringBuilder();
             for (Contact contact : contacts) {
                 Log.d(TAG, "onCreate: " + contact.getName());
-                builder.append(" - ").append(contact.getName()).append(" ").append(contact.getOccupation());
                 contactList.add(contact.getName());
             }
-
-            text.setText(builder.toString());
         });
 
         // create arrayAdapter
