@@ -1,6 +1,7 @@
 package im.tobe.roomandroid.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,12 +17,15 @@ import im.tobe.roomandroid.R;
 import im.tobe.roomandroid.model.Contact;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>{
+    private static final String TAG = "RecyclerViewAdapter";
+    private OnContactClickedListener onContactClickedListener;
     private List<Contact> contactList;
     private Context context;
 
-    public RecyclerViewAdapter(List<Contact> contactList, Context context) {
+    public RecyclerViewAdapter(List<Contact> contactList, Context context, OnContactClickedListener onContactClickedListener) {
         this.contactList = contactList;
         this.context = context;
+        this.onContactClickedListener = onContactClickedListener;
     }
 
     @NonNull
@@ -29,7 +33,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.contact_row, parent, false);
 
-        return new ViewHolder(view);
+        return new ViewHolder(view, this.onContactClickedListener);
     }
 
     @Override
@@ -46,14 +50,18 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     // for each row
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        OnContactClickedListener onContactClickedListener;
         private TextView rowName;
         private TextView rowOccupation;
 
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull View itemView, OnContactClickedListener onContactClickedListener) {
             super(itemView);
             rowName = itemView.findViewById(R.id.rowNameText);
             rowOccupation = itemView.findViewById(R.id.rowOccupationText);
+            this.onContactClickedListener = onContactClickedListener;
+
+            itemView.setOnClickListener(this);
         }
 
         public TextView getRowName() {
@@ -63,5 +71,15 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         public TextView getRowOccupation() {
             return rowOccupation;
         }
+
+        @Override
+        public void onClick(View view) {
+            Log.d(TAG, "onClick: inside");
+            onContactClickedListener.onContactClicked(getAdapterPosition());
+        }
+    }
+
+    public interface OnContactClickedListener {
+        void onContactClicked(int position);
     }
 }

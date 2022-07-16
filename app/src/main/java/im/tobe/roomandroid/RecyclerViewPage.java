@@ -6,16 +6,18 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
 import java.util.List;
+import java.util.Objects;
 
 import im.tobe.roomandroid.adapter.RecyclerViewAdapter;
 import im.tobe.roomandroid.model.Contact;
 import im.tobe.roomandroid.model.ContactViewModel;
 
-public class RecyclerViewPage extends AppCompatActivity {
+public class RecyclerViewPage extends AppCompatActivity implements RecyclerViewAdapter.OnContactClickedListener {
     private static final String TAG = "RecyclerViewPage";
     private RecyclerView recyclerView;
     private RecyclerViewAdapter recyclerViewAdapter;
@@ -37,11 +39,18 @@ public class RecyclerViewPage extends AppCompatActivity {
         // Observe LiveData
         contactViewModel.getContacts().observe(this, (List<Contact> contacts) -> {
             // set up adapter
-            recyclerViewAdapter = new RecyclerViewAdapter(contacts, RecyclerViewPage.this);
+            recyclerViewAdapter = new RecyclerViewAdapter(contacts, RecyclerViewPage.this, this);
 
             recyclerView.setAdapter(recyclerViewAdapter);
         });
 
 
+    }
+
+    @Override
+    public void onContactClicked(int position) {
+        Log.d(TAG, "onContactClicked: position: "+position);
+        Contact contact = Objects.requireNonNull(contactViewModel.getContacts().getValue()).get(position);
+        Log.d(TAG, "onContactClicked: "+contact.getName());
     }
 }

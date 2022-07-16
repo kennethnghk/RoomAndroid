@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import im.tobe.roomandroid.adapter.RecyclerViewAdapter;
 import im.tobe.roomandroid.model.Contact;
 import im.tobe.roomandroid.model.ContactViewModel;
 
