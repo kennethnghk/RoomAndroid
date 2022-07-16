@@ -28,4 +28,10 @@ public class ContactViewModel extends AndroidViewModel {
     public static void insert(Contact contact) {
         repo.insert(contact);
     }
+
+    public LiveData<Contact> get(int id) { return repo.get(id); }
+
+    public static void update(Contact contact) { repo.update(contact); }
+
+    public static void delete(Contact contact) { repo.delete(contact); }
 }

@@ -31,4 +31,20 @@ public class ContactRepo {
             contactDao.insert(contact);
         });
     }
+
+    public LiveData<Contact> get(int id) {
+        return contactDao.get(id);
+    }
+
+    public void update(Contact contact) {
+        ContactDb.databaseWriteExecutor.execute(() -> {
+            contactDao.update(contact);
+        });
+    }
+
+    public void delete(Contact contact) {
+        ContactDb.databaseWriteExecutor.execute(() -> {
+            contactDao.delete(contact);
+        });
+    }
 }
