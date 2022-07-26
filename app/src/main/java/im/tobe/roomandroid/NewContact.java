@@ -57,6 +57,17 @@ public class NewContact extends AppCompatActivity {
         // update button
         Button updateBtn = findViewById(R.id.updateBtn);
         updateBtn.setOnClickListener(this::onUpdateBtnClicked);
+
+        // delete button
+        Button deleteBtn = findViewById(R.id.deleteBtn);
+        deleteBtn.setOnClickListener(this::onDeleteBtnClicked);
+
+        if (isEdit) {
+            saveBtn.setVisibility(View.GONE);
+        } else {
+            updateBtn.setVisibility(View.GONE);
+            deleteBtn.setVisibility(View.GONE);
+        }
     }
 
     private void onUpdateBtnClicked(View view) {
@@ -74,6 +85,14 @@ public class NewContact extends AppCompatActivity {
             ContactViewModel.update(contact);
             finish();
         }
+    }
+
+    private void onDeleteBtnClicked(View view) {
+        Contact contact = new Contact();
+        contact.setId(contactId);
+
+        ContactViewModel.delete(contact);
+        finish();
     }
 
     private void onSaveBtnClicked(View view) {
