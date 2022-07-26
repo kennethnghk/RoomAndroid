@@ -3,6 +3,7 @@ package im.tobe.roomandroid;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,6 +24,7 @@ import im.tobe.roomandroid.model.ContactViewModel;
 public class RecyclerViewPage extends AppCompatActivity implements RecyclerViewAdapter.OnContactClickedListener {
     private static final String TAG = "RecyclerViewPage";
     private static final int NEW_CONTACT_ACTIVITY_REQUEST_CODE = 1;
+    public static final String CONTACT_ID = "contactId";
     private RecyclerView recyclerView;
     private RecyclerViewAdapter recyclerViewAdapter;
     private LiveData<List<Contact>> contactList;
@@ -61,6 +63,10 @@ public class RecyclerViewPage extends AppCompatActivity implements RecyclerViewA
         Log.d(TAG, "onContactClicked: position: "+position);
         Contact contact = Objects.requireNonNull(contactViewModel.getContacts().getValue()).get(position);
         Log.d(TAG, "onContactClicked: "+contact.getName());
+
+        Intent intent = new Intent(RecyclerViewPage.this, NewContact.class);
+        intent.putExtra(CONTACT_ID, contact.getId());
+        startActivity(intent);
     }
 
     // after create contact, come back here

@@ -6,4 +6,6 @@
     <string name="empty_prompt">Empty name or occupation</string>
     <string name="to_recycler_view_btn_text">To RecyclerView</string>
     <string name="to_list_view_btn_text">To ListView</string>
+    <string name="update_btn_text">Update</string>
+    <string name="delete_btn_text">Delete</string>
 </resources>

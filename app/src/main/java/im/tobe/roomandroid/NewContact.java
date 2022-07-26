@@ -1,6 +1,7 @@
 package im.tobe.roomandroid;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
@@ -36,6 +37,18 @@ public class NewContact extends AppCompatActivity {
         saveBtn = findViewById(R.id.saveBtn);
 
         saveBtn.setOnClickListener(this::onSaveBtnClicked);
+
+        Bundle data = getIntent().getExtras();
+        if (data != null) {
+            int contactId = data.getInt(RecyclerViewPage.CONTACT_ID);
+            contactViewModel.get(contactId).observe(this, new Observer<Contact>() {
+                @Override
+                public void onChanged(Contact contact) {
+                    nameInput.setText(contact.getName());
+                    occupationInput.setText(contact.getOccupation());
+                }
+            });
+        }
     }
 
     private void onSaveBtnClicked(View view) {
